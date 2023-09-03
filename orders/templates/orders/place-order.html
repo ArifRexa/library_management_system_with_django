@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body%}
+<div class="container">
+
+
+
+  <!-- ============================ COMPONENT 2 ================================= -->
+  <div class="row">
+    <main class="col-md-8">
+      <h4 class="text-center text-2xl font-bold mb-4">Review cart</h4>
+
+    
+      <div class=" flex justify-center">
+        <!-- <aside class="col-md-3"> -->
+
+
+
+        <!-- </aside> col.// -->
+        <main class="col-md-9">
+
+
+
+          <div class="flex flex-wrap -mx-4">
+            {% for item in cart_items %}
+            <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-4">
+              <figure class="itemside align-items-center">
+                <div class="aside"><img src="{{item.product.image.url}}" class="border img-sm"></div>
+                <figcaption class="info">
+                  <p>{{item.product.book_title}} </p>
+                  <p>Category : {{item.product.category.category_name}} </p>
+                  <!-- <span class="text-muted">{{item.quantity}}x{{item.product.price}} = ${{item.sub_total}} </span> -->
+                </figcaption>
+              </figure>
+            </div> <!-- w-full md:w-1/2 lg:w-1/3 px-4 mb-4.// -->
+            {% endfor %}
+          </div> <!-- flex flex-wrap -mx-4 -->
+
+
+
+        </main> <!-- col.// -->
+      </div> <!-- row end.// -->
+
+
+
+      <h4 class="text-2xl text-center font-bold mb-8">Billing Address</h4>
+
+
+      <section class="w-3/4 mx-auto">
+
+
+        <form method="POST" action="{% url 'order_complete' %}">
+          {% csrf_token %}
+          <div class="grid md:grid-cols-2 md:gap-6">
+
+            <div class="relative z-0 w-full mb-6 group">
+              <input type="text" name="first_name" id="first_name"
+                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" " required />
+              <label for="first_name"
+                class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">First
+                Name</label>
+            </div>
+            <div class="relative z-0 w-full mb-6 group">
+              <input type="text" name="last_name" id="last_name"
+                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" " required />
+              <label for="last_name"
+                class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Last
+                Name</label>
+            </div>
+
+          </div>
+          <div class="relative z-0 w-full mb-6 group">
+            <input type="email" name="email" id="email"
+              class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              placeholder=" " required />
+            <label for="email"
+              class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Email
+              address</label>
+          </div>
+          <div class="relative z-0 w-full mb-6 group">
+            <input type="text" name="address_line1" id="address_line1"
+              class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              placeholder=" " required />
+            <label for="address_line1"
+              class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Address</label>
+          </div>
+          <div class="grid md:grid-cols-2 md:gap-6">
+            <div class="relative z-0 w-full mb-6 group">
+              <input type="text" name="phone" id="phone"
+                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" " required />
+              <label for="phone"
+                class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Phone</label>
+            </div>
+            <div class="relative z-0 w-full mb-6 group">
+              <input type="text" name="country" id="country"
+                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" " required />
+              <label for="country"
+                class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Country</label>
+            </div>
+          </div>
+          <div class="grid md:grid-cols-2 md:gap-6">
+            <div class="relative z-0 w-full mb-6 group">
+              <input type="text" name="city" id="city"
+                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" " required />
+              <label for="city"
+                class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">City</label>
+            </div>
+            <div class="relative z-0 w-full mb-6 group">
+              <input type="text" name="state" id="state"
+                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" " required />
+              <label for="state"
+                class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">State</label>
+            </div>
+          </div>
+
+          <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Order note</label>
+          <textarea id="message" rows="4" name="order_note"
+            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Leave a comment..."></textarea>
+
+          <div class="col form-group">
+            <label for="">Order Items: </label>
+            <ul class="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-black">
+              {% for i in cart_items %}
+              <!-- <input type="text" name="country" class="form-control" value="{{i}}" required disabled> -->
+
+
+              <li>{{i}}</li>
+
+
+            </ul>
+            {% endfor %}
+          </div>
+
+          <button type="submit"
+            class="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Place
+            Order
+
+          </button>
+        </form>
+
+      </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </main> <!-- card-body.// -->
+  </div> <!-- card.// -->
+</div> <!-- row.// -->
+
+</div> <!-- container .//  -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Find the form and button by their IDs
+    const orderForm = document.getElementById('order-form');
+    const placeOrderButton = document.querySelector('.btn-primary');
+
+    // Add a click event listener to the button
+    placeOrderButton.addEventListener('click', function (event) {
+      event.preventDefault(); // Prevent the default form submission behavior
+      // Submit the form using JavaScript
+      orderForm.submit();
+
+      // Redirect to the desired page after the form is submitted
+      window.location.href = "{% url 'order_complete' %}";
+    });
+  });
+</script>
+
+
+{% endblock %}

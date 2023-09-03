@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body%}
+
+<section class="w-3/4 mx-auto mt-10 mb-10">
+
+	<form action="{% url 'search' %}" method="GET">
+		<div class="flex">
+			<label for="search-dropdown" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Your
+				Email</label>
+			<button id="dropdown-button" data-dropdown-toggle="dropdown"
+				class="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-l-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600"
+				type="button">All categories <svg class="w-2.5 h-2.5 ml-2.5" aria-hidden="true"
+					xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+					<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+						d="m1 1 4 4 4-4" />
+				</svg></button>
+			<div id="dropdown"
+				class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+				<ul class="py-2 px-3 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdown-button">
+					{% if categories %}
+					{% for i in categories %}
+					<li>
+						<a href="{% url 'products_by_category' i.slug %}">{{ i.category_name }}</a>
+					</li>
+					{% endfor %}
+					<li><a href="{% url 'library' %}">ALL</a></li>
+
+					{% endif %}
+				</ul>
+			</div>
+			<div class="relative w-full">
+				<input type="text" placeholder="Search" name="keyword" id="search-dropdown"
+					class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-r-lg border-l-gray-50 border-l-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-l-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
+					placeholder="Search Mockups, Logos, Design Templates..." required>
+				<button type="submit"
+					class="absolute top-0 right-0 p-2.5 text-sm font-medium h-full text-white bg-blue-700 rounded-r-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+					<svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+						viewBox="0 0 20 20">
+						<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+							d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+					</svg>
+					<span class="sr-only">Search</span>
+				</button>
+			</div>
+		</div>
+	</form>
+</section>
+
+<section class="section-pagetop bg">
+	<div class="container">
+		{% if 'search' in request.path %}
+		<h2 class="title-page">Search Result</h2>
+		{% endif %}
+	</div>
+	<!-- container //  -->
+</section>
+
+<section class="section-pagetop bg">
+	<div class="container">
+		<h2 class="text-2xl text-center font-bold text-black mb-20">Our Library Store</h2>
+
+	</div> <!-- container //  -->
+</section>
+<!-- ========================= SECTION INTRO END// ========================= -->
+
+<!-- ========================= SECTION CONTENT ========================= -->
+<section class="section-content padding-y">
+	<div class="container px-80">
+
+		<div class=" flex justify-between">
+			<!-- <aside class="col-md-3"> -->
+
+
+
+			<!-- </aside> col.// -->
+			<main class="col-md-9">
+
+				<header class="border-bottom mb-4 pb-3">
+					<div class="form-inline">
+						<span class="mr-md-auto">{{products | length}} Items found </span>
+
+					</div>
+				</header><!-- sect-heading -->
+
+				<div class="flex flex-wrap -mx-4">
+					{% for item in products %}
+					<div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-4">
+						<figure class="card card-product-grid">
+							<div class="img-wrap">
+								<img src="{{ item.image.url }}">
+							</div> <!-- img-wrap.// -->
+							<figcaption class="info-wrap">
+								<div class="fix-height">
+									<a href="{% url 'product_detail' item.genre.slug item.slug %}"
+										class="title font-bold">{{item.book_title }}</a>
+									<div class="price-wrap mt-2">
+										<span class="price">Category: {{ item.genre }}</span>
+									</div>
+									<div class="price-wrap">
+										<span class="price">${{ item.price }}</span>
+									</div>
+								</div>
+								<!-- <a href="#" class="btn btn-block btn-success">Added to cart </a> -->
+							</figcaption>
+						</figure>
+					</div> <!-- w-full md:w-1/2 lg:w-1/3 px-4 mb-4.// -->
+					{% endfor %}
+				</div> <!-- flex flex-wrap -mx-4 -->
+
+
+
+
+
+
+
+
+
+
+				<nav aria-label="Page navigation example" class="flex justify-center mt-10">
+					<ul class="inline-flex -space-x-px text-sm">
+						{% if products.has_previous %}
+						<li>
+							<a href="?page={{products.previous_page_number}}"
+								class="flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Previous</a>
+						</li>
+						{% else %}
+						<li class="disabled">
+							<a
+								class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Previous</a>
+						</li>
+						{% endif%}
+
+						{% for i in products.paginator.page_range %}
+						<li>
+							<a href="?page={{i}}"
+								class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">{{i}}</a>
+						</li>
+						{% endfor %}
+
+
+						{% if products.has_next %}
+						<li>
+							<a href="?page={{products.next_page_number}}"
+								class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Next</a>
+						</li>
+						{% else %}
+						<li class="disabled">
+							<a
+								class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Next</a>
+						</li>
+						{% endif%}
+
+					</ul>
+				</nav>
+			</main> <!-- col.// -->
+		</div> <!-- row end.// -->
+
+
+
+
+	</div>
+
+	</div> <!-- container .//  -->
+</section>
+{% endblock%}

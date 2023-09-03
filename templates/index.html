@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<header class="bg-blue-700 text-white text-center py-20">
+    <div class="container mx-auto">
+        <h1 class="text-4xl font-semibold mb-4">Welcome to our Library</h1>
+        <p class="text-lg">Explore our vast collection of books and enhance your reading experience.</p>
+    </div>
+</header>
+<section class="py-10">
+    <div class="container mx-auto grid grid-cols-3 gap-8">
+        <!-- Flowbite card components can be used here -->
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title">New Arrivals</h2>
+                <p>Discover the latest additions to our library.</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title">Top Picks</h2>
+                <p>Explore our curated selection of top-rated books.</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title">Upcoming Events</h2>
+                <p>Join us for exciting book-related events and discussions.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
