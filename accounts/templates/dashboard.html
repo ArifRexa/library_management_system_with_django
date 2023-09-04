@@ -3,6 +3,12 @@
 
 {% block body %}
 <section class="mb-80 pt-32">
+	{%if request.user.is_authenticated %}
+	<h1 class="text-3xl text-center font-bold uppercase">
+		{{request.user.first_name}}  {{request.user.last_name}}
+	</h1>
+	<p class="text-2xl text-center font-bold">{{request.user.username}}</p>
+	{% endif %}
 
 <div class="flex justify-center">
 	<div class="row">

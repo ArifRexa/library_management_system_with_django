@@ -30,9 +30,6 @@ def success_view(request):
         orderproduct.quantity = item.quantity
         orderproduct.ordered = True
         orderproduct.save()
-
-       
-        
         product.stock -= item.quantity 
         product.save()
 

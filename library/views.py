@@ -3,7 +3,9 @@ from .models import Books, ReviewRating
 from category.models import Category
 from django.core.paginator import Paginator
 from django.db.models import Q
-
+from wishlist.models import CartItem
+from orders.models import OrderProduct
+from wishlist.views import _cart_id
 from .forms import ReviewForm
 
 # Create your views here.
@@ -37,13 +39,8 @@ def library(request, category_slug=None):
 def book_detail(request, category_slug, product_slug):
     single_product = get_object_or_404(Books, slug=product_slug)
     reviews = ReviewRating.objects.filter(product=single_product, status=True)
-    print(reviews)
     
     return render(request, 'book_detail.html', {'product': single_product, 'reviews': reviews})
-
-
-
-
 
 
 
@@ -52,33 +49,28 @@ def book_detail(request, category_slug, product_slug):
 def submit_review(request, product_id):
     url = request.META.get('HTTP_REFERER')
     if request.method == 'POST':
-        form = ReviewForm(request.POST)
-        if form.is_valid():
-            data = ReviewRating()
-            data.subject = form.cleaned_data['subject']
-            data.rating = form.cleaned_data['rating']
-            data.review = form.cleaned_data['review']
-            data.product_id = product_id
-            data.user = request.user
-            data.save()
-            return redirect(url)
-        # try:
-        #     product = Books.objects.get(id = product_id)
-        #     reviews = ReviewRating.objects.get(user = request.user, product = product)
-        #     form = ReviewForm(request.POST, instance = reviews)
-        #     form.save()
-        #     return redirect('cart')
-        # except ReviewRating.DoesNotExist:
-        #     form = ReviewForm(request.POST)
-        #     if form.is_valid():
-        #         data = ReviewRating()
-        #         data.subject = form.cleaned_data['subject']
-        #         data.rating = form.cleaned_data['rating']
-        #         data.review = form.cleaned_data['review']
-        #         data.product_id = product_id
-        #         data.user = request.user
-        #         data.save()
-        #         return redirect(url)
+        try:
+            product = Books.objects.get(id = product_id)
+            reviews = ReviewRating.objects.get(user = request.user, product = product)
+            form = ReviewForm(request.POST, instance = reviews)
+            form.save()
+            return redirect('cart')
+        except ReviewRating.DoesNotExist:
+            form = ReviewForm(request.POST)
+            if form.is_valid():
+                data = ReviewRating()
+                data.subject = form.cleaned_data['subject']
+                data.rating = form.cleaned_data['rating']
+                data.review = form.cleaned_data['review']
+                data.product_id = product_id
+                data.user = request.user
+                data.save()
+                return redirect(url)
+
+
+
+
+
 
 
 def search(request):
